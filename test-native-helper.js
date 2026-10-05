@@ -17,6 +17,9 @@ async function run() {
   check(button.getBoundingClientRect().right<=doc.getElementById('tab-bar-container').getBoundingClientRect().left,'Hamburger sits to the left of tabs');
   check(button.querySelector('.compact-menu-icon').getBoundingClientRect().width===14,'Compact icon uses stable geometry');
   check(button.getBoundingClientRect().width===28,'Compact button width');
+  const rect=button.getBoundingClientRect(), tab=[...doc.querySelectorAll('#tab-bar-container .tab')].map(t=>t.getBoundingClientRect()).find(r=>r.width>0);
+  const spacing={left:rect.left-doc.getElementById('zotero-title-bar').getBoundingClientRect().left,right:tab.left-rect.right};
+  check(spacing.left===6&&spacing.right===6,'Balanced six-pixel outer gaps');
   check(doc.querySelector('#zotero-tabs-toolbar > .titlebar-buttonbox'),'Controls relocated');
   check(doc.querySelector('#zotero-tabs-toolbar .titlebar-close').getBoundingClientRect().width>0,'Close control remains visible');
   const file=doc.getElementById('fileMenu'), filePopup=doc.getElementById('menu_FilePopup');
@@ -54,5 +57,5 @@ async function run() {
   check(!doc.getElementById('compact-menu-button'),'Disable removes button');
   check(file.parentNode===menus,'Disable restores original menu');
   check(win.getComputedStyle(title).display!=='none','Disable restores top row');
-  await IOUtils.writeUTF8(CONFIG.result,JSON.stringify({done:true,passed:true,version:Zotero.version}));
+  await IOUtils.writeUTF8(CONFIG.result,JSON.stringify({done:true,passed:true,version:Zotero.version,spacing}));
 }

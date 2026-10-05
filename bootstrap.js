@@ -49,7 +49,8 @@ function attach(win) {
   style.textContent = `
     #titlebar[data-compact-menu-hidden]{display:none!important}
     #zotero-tabs-toolbar > .titlebar-buttonbox{align-self:stretch}
-    #compact-menu-button{color:inherit;box-sizing:border-box;min-width:28px;width:28px;max-width:28px;height:28px;margin:2px;align-self:center;justify-content:center;padding:5px;border-radius:4px;-moz-window-dragging:no-drag}
+    #compact-menu-button{color:inherit;box-sizing:border-box;min-width:28px;width:28px;max-width:28px;height:28px;margin-block:2px;margin-inline:6px 5px;align-self:center;justify-content:center;padding:5px;border-radius:4px;-moz-window-dragging:no-drag}
+    #compact-menu-button + #tab-bar-container{--safe-area-start:0px}
     #compact-menu-button > .toolbarbutton-icon,
     #compact-menu-button > .toolbarbutton-text,
     #compact-menu-button > .toolbarbutton-menu-dropmarker{display:none}
