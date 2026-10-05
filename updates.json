@@ -1,0 +1,1 @@
+{"addons":{"compact-menu@yuukibarns":{"updates":[{"version":"0.1.5","update_link":"https://github.com/yuukibarns/zotero-compact-menu/releases/download/v0.1.5/compact-menu-0.1.5.xpi","update_hash":"sha256:9b1e1b4898df93d7d6083d9bff7cc467d187aec6b387f91217c39d51a02f7051","applications":{"zotero":{"strict_min_version":"10.0","strict_max_version":"10.*"}}}]}}}

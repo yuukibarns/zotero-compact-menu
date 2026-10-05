@@ -9,6 +9,7 @@ Disabling the plugin restores the original menus and window controls.
 macOS is intentionally unchanged because its menu bar belongs to the system.
 Standalone reader/note windows without Zotero's main menu are unchanged.
 
-This is a local build; the GitHub update endpoint is reserved and not published.
+Download the XPI from [GitHub Releases](https://github.com/yuukibarns/zotero-compact-menu/releases).
+Install through Zotero's Plugins manager. Subsequent releases use the repository's update feed.
 
-Build: `python3 package.py /absolute/path/compact-menu-0.1.0.xpi`
+Build: `python3 package.py /absolute/path/compact-menu-0.1.5.xpi`
