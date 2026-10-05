@@ -12,7 +12,8 @@ try {
  await writeFile(path.join(profile,'user.js'),'user_pref("extensions.autoDisableScopes",0);\nuser_pref("extensions.startupScanScopes",15);\nuser_pref("extensions.update.enabled",false);\nuser_pref("extensions.zotero.firstRun2",false);');
  await writeFile(path.join(helper,'manifest.json'),JSON.stringify({manifest_version:2,name:'Compact menu test',version:'1.0',applications:{zotero:{id:'compact-menu-test@example.invalid',strict_min_version:'10.0',strict_max_version:'10.*',update_url:'https://example.invalid/updates.json'}}}));
  await writeFile(path.join(helper,'bootstrap.js'),'const CONFIG='+JSON.stringify({result})+';\n'+await readFile('test-native-helper.js','utf8'));
- await copyFile('../../outputs/compact-menu-0.1.0.xpi',path.join(profile,'extensions','compact-menu@yuukibarns.xpi'));
+ const {version}=JSON.parse(await readFile('manifest.json','utf8'));
+ await copyFile(`../../outputs/compact-menu-${version}.xpi`,path.join(profile,'extensions','compact-menu@yuukibarns.xpi'));
  app=spawn('/usr/lib/zotero/zotero-bin',['-app','/usr/lib/zotero/app/application.ini','--headless','--no-remote','--profile',profile,'-datadir','profile'],{stdio:'ignore',detached:true,env:{...process.env,MOZ_LEGACY_PROFILES:'1',MOZ_ALLOW_DOWNGRADE:'1'}});
  for(let i=0;i<120;i++) {
   let data;try{data=JSON.parse(await readFile(result,'utf8'));}catch(e){if(e.code!=='ENOENT')throw e;}

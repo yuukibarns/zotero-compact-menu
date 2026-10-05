@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Compact Menu",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Hide Zotero's menu row and access native menus from a hamburger button beside the tabs.",
   "author": "yuukibarns",
   "applications": { "zotero": {

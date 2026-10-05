@@ -45,13 +45,27 @@ function attach(win) {
   style.textContent = '#titlebar[data-compact-menu-hidden]{display:none!important} #zotero-tabs-toolbar > .titlebar-buttonbox{align-self:stretch} #compact-menu-button{color:inherit}';
   doc.documentElement.append(style);
   function shown() { return Services.prefs.getBoolPref(PREF, false); }
+  const headings = [];
   function collectMenus() {
+    restoreMenus();
     for (const menu of [...menubar.children]) {
-      if (menu.localName === 'menu') move(menu, popup, separator);
+      if (menu.localName !== 'menu') continue;
+      if (!shown()) { move(menu, popup, separator); continue; }
+      // Keep the visible bar's headings in place. Only lend the native popup
+      // to a temporary heading; never duplicate commands, IDs or handlers.
+      const content = [...menu.children].find(child => child.localName === 'menupopup');
+      if (!content) continue;
+      const heading = doc.createXULElement('menu');
+      for (const attr of ['label', 'accesskey', 'disabled', 'hidden']) {
+        if (menu.hasAttribute(attr)) heading.setAttribute(attr, menu.getAttribute(attr));
+      }
+      popup.insertBefore(heading, separator); headings.push(heading);
+      move(content, heading);
     }
   }
   function restoreMenus() {
     for (const node of placements.keys()) if (node !== controls) restore(node);
+    for (const heading of headings.splice(0)) heading.remove();
   }
   function refresh() {
     const visible = shown();
@@ -74,7 +88,7 @@ function attach(win) {
     popup.removeEventListener('popupshowing', opening);
     popup.removeEventListener('popuphidden', closing);
     toggle.removeEventListener('command', command);
-    for (const node of placements.keys()) restore(node);
+    restoreMenus(); restore(controls);
     for (const anchor of placements.values()) anchor.remove();
     titlebar.removeAttribute('data-compact-menu-hidden');
     button.remove(); style.remove();
