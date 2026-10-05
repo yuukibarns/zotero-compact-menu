@@ -49,11 +49,11 @@ function attach(win) {
   style.textContent = `
     #titlebar[data-compact-menu-hidden]{display:none!important}
     #zotero-tabs-toolbar > .titlebar-buttonbox{align-self:stretch}
-    #compact-menu-button{color:inherit;min-width:38px;width:38px;max-width:38px;height:32px;margin:3px 4px;align-self:center;justify-content:center;padding:8px;border-radius:6px;-moz-window-dragging:no-drag}
+    #compact-menu-button{color:inherit;box-sizing:border-box;min-width:28px;width:28px;max-width:28px;height:28px;margin:2px;align-self:center;justify-content:center;padding:5px;border-radius:4px;-moz-window-dragging:no-drag}
     #compact-menu-button > .toolbarbutton-icon,
     #compact-menu-button > .toolbarbutton-text,
     #compact-menu-button > .toolbarbutton-menu-dropmarker{display:none}
-    #compact-menu-button .compact-menu-icon{display:block;width:18px;height:14px;flex-shrink:0;pointer-events:none;background:linear-gradient(currentColor,currentColor) top/100% 2px no-repeat,linear-gradient(currentColor,currentColor) center/100% 2px no-repeat,linear-gradient(currentColor,currentColor) bottom/100% 2px no-repeat}
+    #compact-menu-button .compact-menu-icon{display:block;width:14px;height:12px;flex-shrink:0;pointer-events:none;background:linear-gradient(currentColor,currentColor) top/100% 2px no-repeat,linear-gradient(currentColor,currentColor) center/100% 2px no-repeat,linear-gradient(currentColor,currentColor) bottom/100% 2px no-repeat}
   `;
   doc.documentElement.append(style);
   function shown() { return Services.prefs.getBoolPref(PREF, false); }
