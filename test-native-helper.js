@@ -13,6 +13,9 @@ async function run() {
   check(button,'Plugin installed');
   check(win.getComputedStyle(title).display==='none','Menu row hidden');
   check(button.getBoundingClientRect().width>0,'Hamburger visible');
+  check(doc.getElementById('zotero-title-bar').firstElementChild===button,'Hamburger is first in tab row');
+  check(button.getBoundingClientRect().right<=doc.getElementById('tab-bar-container').getBoundingClientRect().left,'Hamburger sits to the left of tabs');
+  check(button.querySelector('.compact-menu-icon').getBoundingClientRect().width===18,'Wide icon uses stable geometry');
   check(doc.querySelector('#zotero-tabs-toolbar > .titlebar-buttonbox'),'Controls relocated');
   check(doc.querySelector('#zotero-tabs-toolbar .titlebar-close').getBoundingClientRect().width>0,'Close control remains visible');
   const file=doc.getElementById('fileMenu'), filePopup=doc.getElementById('menu_FilePopup');

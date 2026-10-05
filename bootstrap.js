@@ -10,8 +10,9 @@ function attach(win) {
   const titlebar = doc.getElementById('titlebar');
   const menubar = doc.getElementById('main-menubar');
   const toolbar = doc.getElementById('zotero-tabs-toolbar');
+  const tabRow = doc.getElementById('zotero-title-bar');
   const controls = titlebar?.querySelector('.titlebar-buttonbox');
-  if (!titlebar || !menubar || !toolbar || !controls) return;
+  if (!titlebar || !menubar || !toolbar || !controls || !tabRow) return;
   const placements = new Map();
   function move(node, parent, before = null) {
     if (!placements.has(node)) {
@@ -27,11 +28,14 @@ function attach(win) {
   const button = doc.createXULElement('toolbarbutton');
   button.id = 'compact-menu-button';
   button.setAttribute('type', 'menu');
-  button.setAttribute('label', '☰');
+  button.setAttribute('class', 'zotero-tb-button');
   button.setAttribute('tooltiptext', 'Application menu');
   button.setAttribute('aria-label', 'Application menu');
   button.setAttribute('tabindex', '0');
-  button.style.cssText = 'min-width:36px;font-size:20px;-moz-window-dragging:no-drag';
+  const icon = doc.createElementNS('http://www.w3.org/1999/xhtml', 'span');
+  icon.className = 'compact-menu-icon';
+  icon.setAttribute('aria-hidden', 'true');
+  button.append(icon);
   const popup = doc.createXULElement('menupopup');
   popup.id = 'compact-menu-popup';
   const separator = doc.createXULElement('menuseparator');
@@ -40,9 +44,17 @@ function attach(win) {
   toggle.setAttribute('type', 'checkbox');
   toggle.setAttribute('autocheck', 'false');
   toggle.setAttribute('label', 'Show menu bar');
-  popup.append(separator, toggle); button.append(popup); toolbar.prepend(button);
+  popup.append(separator, toggle); button.append(popup); tabRow.prepend(button);
   const style = doc.createElementNS('http://www.w3.org/1999/xhtml', 'style');
-  style.textContent = '#titlebar[data-compact-menu-hidden]{display:none!important} #zotero-tabs-toolbar > .titlebar-buttonbox{align-self:stretch} #compact-menu-button{color:inherit}';
+  style.textContent = `
+    #titlebar[data-compact-menu-hidden]{display:none!important}
+    #zotero-tabs-toolbar > .titlebar-buttonbox{align-self:stretch}
+    #compact-menu-button{color:inherit;min-width:38px;width:38px;max-width:38px;height:32px;margin:3px 4px;align-self:center;justify-content:center;padding:8px;border-radius:6px;-moz-window-dragging:no-drag}
+    #compact-menu-button > .toolbarbutton-icon,
+    #compact-menu-button > .toolbarbutton-text,
+    #compact-menu-button > .toolbarbutton-menu-dropmarker{display:none}
+    #compact-menu-button .compact-menu-icon{display:block;width:18px;height:14px;flex-shrink:0;pointer-events:none;background:linear-gradient(currentColor,currentColor) top/100% 2px no-repeat,linear-gradient(currentColor,currentColor) center/100% 2px no-repeat,linear-gradient(currentColor,currentColor) bottom/100% 2px no-repeat}
+  `;
   doc.documentElement.append(style);
   function shown() { return Services.prefs.getBoolPref(PREF, false); }
   const headings = [];
